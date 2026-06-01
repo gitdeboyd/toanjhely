@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tulipán</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ── TÍTULO ── */
+    .title {
+      position: fixed;
+      top: 36px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: #7a1fa8;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      text-shadow: 0 1px 8px rgba(155, 60, 201, 0.13);
+    }
+
+    .title span {
+      display: block;
+      font-size: 13px;
+      font-family: 'Lato', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      color: #c084e8;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    /* ── TULIPÁN COMPLETO ── */
+    .tulip-wrapper {
+      position: relative;
+      width: 200px;
+      height: 380px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── TALLO ── */
+    .stem {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 200px;
+      background: linear-gradient(to right, #2d6a1f, #4a9e30, #2d6a1f);
+      border-radius: 5px;
+    }
+
+    /* ── HOJA IZQUIERDA ── */
+    .leaf-left {
+      position: absolute;
+      bottom: 110px;
+      left: calc(50% - 8px);
+      width: 60px;
+      height: 28px;
+      background: linear-gradient(135deg, #3a8226, #5db842, #3a8226);
+      border-radius: 0 60% 0 60%;
+      transform-origin: right center;
+      transform: rotate(-30deg);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.2);
+    }
+
+    /* ── HOJA DERECHA ── */
+    .leaf-right {
+      position: absolute;
+      bottom: 80px;
+      right: calc(50% - 8px);
+      width: 55px;
+      height: 25px;
+      background: linear-gradient(225deg, #3a8226, #5db842, #3a8226);
+      border-radius: 60% 0 60% 0;
+      transform-origin: left center;
+      transform: rotate(25deg);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.2);
+    }
+
+    /* ── SÉPALO / CÁLIZ ── */
+    .calyx {
+      position: absolute;
+      bottom: 198px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 22px;
+    }
+
+    .calyx::before,
+    .calyx::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 22px;
+      background: #2d6a1f;
+      border-radius: 50% 50% 0 0;
+    }
+
+    .calyx::before { left: 0; transform: rotate(-12deg); }
+    .calyx::after  { right: 0; transform: rotate(12deg); }
+
+    /* ── PÉTALOS ── */
+    .flower {
+      position: absolute;
+      bottom: 195px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 165px;
+    }
+
+    .petal {
+      position: absolute;
+      width: 46px;
+      height: 110px;
+      border-radius: 50% 50% 30% 30% / 60% 60% 30% 30%;
+      box-shadow: inset 2px 4px 8px rgba(255,255,255,0.25), inset -2px -4px 8px rgba(0,0,0,0.15);
+      transition: transform 0.15s ease;
+    }
+
+    .petal:nth-child(1) {
+      background: linear-gradient(170deg, #9b3cc9 0%, #7a1fa8 50%, #5c1580 100%);
+      bottom: 0; left: 50%;
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(-38deg) scaleX(0.9);
+      z-index: 1;
+      filter: brightness(0.82);
+    }
+
+    .petal:nth-child(2) {
+      background: linear-gradient(190deg, #9b3cc9 0%, #7a1fa8 50%, #5c1580 100%);
+      bottom: 0; left: 50%;
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(38deg) scaleX(0.9);
+      z-index: 1;
+      filter: brightness(0.82);
+    }
+
+    .petal:nth-child(3) {
+      background: linear-gradient(160deg, #b44de0 0%, #8c25bf 45%, #6a189e 100%);
+      bottom: 0; left: 50%;
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(-18deg);
+      z-index: 2;
+      filter: brightness(0.92);
+    }
+
+    .petal:nth-child(4) {
+      background: linear-gradient(200deg, #b44de0 0%, #8c25bf 45%, #6a189e 100%);
+      bottom: 0; left: 50%;
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(18deg);
+      z-index: 2;
+      filter: brightness(0.92);
+    }
+
+    .petal:nth-child(5) {
+      background: linear-gradient(175deg, #cc66f0 0%, #a535d4 40%, #7d1db5 100%);
+      bottom: 0; left: 50%;
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(0deg);
+      z-index: 3;
+      width: 48px;
+    }
+
+    .petal::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-40%);
+      width: 14px;
+      height: 60px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.22), transparent);
+      border-radius: 50%;
+    }
+
+    /* ── ANIMACIÓN PRESS ── */
+    .tulip-wrapper:active .flower {
+      transform: translateX(-50%) scale(0.95);
+    }
+
+    .tulip-wrapper.pulse .flower {
+      animation: tulipPulse 0.28s ease;
+    }
+
+    @keyframes tulipPulse {
+      0%   { transform: translateX(-50%) scale(1); }
+      40%  { transform: translateX(-50%) scale(0.93) rotate(-2deg); }
+      70%  { transform: translateX(-50%) scale(1.04) rotate(1deg); }
+      100% { transform: translateX(-50%) scale(1) rotate(0deg); }
+    }
+
+    /* ── HOJA DECORATIVA QUE CAE ── */
+    .falling-petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+      width: 22px;
+      height: 38px;
+      border-radius: 50% 10% 50% 10%;
+      opacity: 0;
+    }
+
+    .falling-petal.animate {
+      animation: petalFall 1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes petalFall {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) translateX(0px);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(40px) rotate(30deg) translateX(18px);
+      }
+      45% {
+        transform: translateY(110px) rotate(-20deg) translateX(-14px);
+      }
+      70% {
+        transform: translateY(200px) rotate(50deg) translateX(22px);
+        opacity: 0.85;
+      }
+      90% {
+        transform: translateY(270px) rotate(20deg) translateX(-8px);
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(320px) rotate(60deg) translateX(10px);
+        opacity: 0;
+      }
+    }
+
+    /* ── MENSAJE ── */
+    .message-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .message-overlay.visible {
+      pointer-events: auto;
+      animation: overlayIn 0.4s ease 1.15s forwards;
+    }
+
+    @keyframes overlayIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .message-card {
+      background: #ffffff;
+      border: 1.5px solid #d4a8f0;
+      border-radius: 20px;
+      padding: 32px 28px;
+      max-width: 300px;
+      width: 85vw;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(140, 37, 191, 0.12), 0 2px 12px rgba(140, 37, 191, 0.08);
+      transform: translateY(20px) scale(0.94);
+      animation: cardIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.15s both;
+      position: relative;
+    }
+
+    @keyframes cardIn {
+      from { transform: translateY(20px) scale(0.94); opacity: 0; }
+      to   { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .message-card .deco {
+      font-size: 28px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .message-card p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.65;
+      color: #3a0a5e;
+    }
+
+    .message-card .close-btn {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 9px 26px;
+      background: linear-gradient(135deg, #9b3cc9, #7a1fa8);
+      color: #fff;
+      border-radius: 50px;
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, box-shadow 0.1s;
+      box-shadow: 0 3px 12px rgba(140, 37, 191, 0.3);
+    }
+
+    .message-card .close-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ── HINT ── */
+    .hint {
+      position: fixed;
+      bottom: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #9b3cc9;
+      letter-spacing: 0.12em;
+      pointer-events: none;
+      animation: hintBlink 2.2s ease-in-out infinite;
+    }
+
+    .hint::before,
+    .hint::after {
+      content: ' ✦ ';
+      color: #c084e8;
+    }
+
+    @keyframes hintBlink {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── COUNTER ── */
+    .counter {
+      position: fixed;
+      top: 30px;
+      right: 24px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .counter-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #e0c8f5;
+      transition: background 0.4s;
+    }
+
+    .counter-dot.used {
+      background: #9b3cc9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Título -->
+  <div class="title">
+    <span>para ti</span>
+    Cosas sobre Anjhely.
+  </div>
+
+  <!-- Contador de mensajes -->
+  <div class="counter" id="counter"></div>
+
+  <!-- Tulipán -->
+  <div class="tulip-wrapper" id="tulip">
+
+    <!-- Flor -->
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+    </div>
+
+    <!-- Cáliz -->
+    <div class="calyx"></div>
+
+    <!-- Tallo y hojas -->
+    <div class="stem"></div>
+    <div class="leaf-left"></div>
+    <div class="leaf-right"></div>
+
+  </div>
+
+  <!-- Hint -->
+  <div class="hint">TOCA LA FLOR.</div>
+
+  <!-- Overlay de mensaje -->
+  <div class="message-overlay" id="msgOverlay">
+    <div class="message-card" id="msgCard">
+      <span class="deco" id="msgDeco"></span>
+      <p id="msgText"></p>
+      <button class="close-btn" id="closeBtn">cerrar</button>
+    </div>
+  </div>
+
+<script>
+  const MESSAGES = [
+    { deco: "🌷", text: "Las rosas no le llaman la atencion, razon misma por el que este sitio no tiene una." },
+    { deco: "✨", text: "No le lleven pizza, pollo o alitas, mejor un churrasco." },
+    { deco: "💜", text: "Su color favorito es el azul." },
+    { deco: "🌸", text: "Ustedes no saben pero su novio es spiderman." },
+    { deco: "🦋", text: "Tiene una larga lista de cosas que no te va a comer ... <a href='https://youtu.be/CGGWlhoNi4E?t=90' target='_blank'> Literal ella jaksjs.</a>." },
+    { deco: "💫", text: "La explotada laboral predilecta, siempre se niega a llamar a SUNAFIL." },
+    { deco: "🌙", text: "Su sentido del sarcasmo es proyectarse, dile algo rancio y te seguira el juego." },
+  ];
+
+  const PETAL_COLORS = [
+    'linear-gradient(140deg, #cc66f0, #8c25bf)',
+    'linear-gradient(140deg, #b44de0, #7a1fa8)',
+    'linear-gradient(140deg, #d480f5, #9b3cc9)',
+    'linear-gradient(140deg, #a535d4, #6a189e)',
+  ];
+
+  let available = [...Array(MESSAGES.length).keys()];
+  let isAnimating = false;
+
+  // AudioContext para sonido
+  let audioCtx = null;
+
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  function playChime() {
+    try {
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      // Acorde suave: dos notas superpuestas
+      const notes = [523.25, 659.25]; // Do5 + Mi5
+      notes.forEach((freq, i) => {
+        const osc  = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        // Envolvente: ataque rápido, caída suave
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.02 + i * 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+        osc.start(audioCtx.currentTime + i * 0.03);
+        osc.stop(audioCtx.currentTime + 1.3);
+      });
+    } catch(e) {
+      // silencioso si el navegador bloquea
+    }
+  }
+
+  // Construir dots contador
+  const counterEl = document.getElementById('counter');
+  const dots = [];
+  for (let i = 0; i < MESSAGES.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'counter-dot';
+    counterEl.appendChild(d);
+    dots.push(d);
+  }
+
+  const tulip    = document.getElementById('tulip');
+  const overlay  = document.getElementById('msgOverlay');
+  const msgDeco  = document.getElementById('msgDeco');
+  const msgText  = document.getElementById('msgText');
+  const closeBtn = document.getElementById('closeBtn');
+
+  function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function launchPetal(originX, originY) {
+    const el = document.createElement('div');
+    el.className = 'falling-petal';
+    el.style.background = pickRandom(PETAL_COLORS);
+    el.style.left = (originX - 11) + 'px';
+    el.style.top  = (originY - 19) + 'px';
+    el.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+    document.body.appendChild(el);
+
+    void el.offsetWidth;
+    el.classList.add('animate');
+
+    el.addEventListener('animationend', () => el.remove());
+  }
+
+  function showMessage(idx) {
+    const m = MESSAGES[idx];
+    msgDeco.textContent = m.deco;
+    msgText.textContent = m.text;
+
+    overlay.classList.remove('visible');
+    void overlay.offsetWidth;
+    overlay.classList.add('visible');
+
+    dots[idx].classList.add('used');
+  }
+
+  function onTulipTap(e) {
+    if (isAnimating) return;
+    if (available.length === 0) {
+      available = [...Array(MESSAGES.length).keys()];
+      dots.forEach(d => d.classList.remove('used'));
+    }
+
+    isAnimating = true;
+
+    // Sonido
+    playChime();
+
+    // Animación del tulipán
+    tulip.classList.remove('pulse');
+    void tulip.offsetWidth;
+    tulip.classList.add('pulse');
+
+    const rect = tulip.getBoundingClientRect();
+    const ox = rect.left + rect.width / 2;
+    const oy = rect.top + 30;
+
+    launchPetal(ox, oy);
+
+    // Elegir mensaje
+    const randPos = Math.floor(Math.random() * available.length);
+    const msgIdx  = available[randPos];
+    available.splice(randPos, 1);
+
+    // Mostrar mensaje más rápido (1.1s en vez de 1.75s)
+    setTimeout(() => {
+      showMessage(msgIdx);
+      isAnimating = false;
+    }, 1100);
+  }
+
+  tulip.addEventListener('click', onTulipTap);
+
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('visible');
+  });
+
+  tulip.addEventListener('animationend', (e) => {
+    if (e.target === tulip || e.target.closest('.flower')) {
+      tulip.classList.remove('pulse');
+    }
+  });
+</script>
+</body>
+</html>
