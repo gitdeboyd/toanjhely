@@ -315,6 +315,12 @@
       color: #3a0a5e;
     }
 
+    .message-card p a {
+      color: #8c25bf;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
     .message-card .close-btn {
       margin-top: 20px;
       display: inline-block;
@@ -390,7 +396,7 @@
   <!-- Título -->
   <div class="title">
     <span>para ti</span>
-    Cosas sobre Anjhely.
+    Cosas que me gustan de ti
   </div>
 
   <!-- Contador de mensajes -->
@@ -419,7 +425,7 @@
   </div>
 
   <!-- Hint -->
-  <div class="hint">TOCA LA FLOR.</div>
+  <div class="hint">toca la flor</div>
 
   <!-- Overlay de mensaje -->
   <div class="message-overlay" id="msgOverlay">
@@ -432,13 +438,13 @@
 
 <script>
   const MESSAGES = [
-    { deco: "🌷", text: "Las rosas no le llaman la atencion, razon misma por el que este sitio no tiene una." },
+    { deco: "🌷", text: "Las rosas no le llaman la atención, razón misma por el que este sitio no tiene una." },
     { deco: "✨", text: "No le lleven pizza, pollo o alitas, mejor un churrasco." },
     { deco: "💜", text: "Su color favorito es el azul." },
     { deco: "🌸", text: "Ustedes no saben pero su novio es spiderman." },
-    { deco: "🦋", text: "Tiene una larga lista de cosas que no te va a comer ... <a href='https://youtu.be/CGGWlhoNi4E?t=90' target='_blank'> Literal ella jaksjs.</a>." },
+    { deco: "🦋", text: "Tiene una larga lista de cosas que no te va a comer... <a href='https://youtu.be/CGGWlhoNi4E?t=90' target='_blank'>Literal ella jaksjs.</a>" },
     { deco: "💫", text: "La explotada laboral predilecta, siempre se niega a llamar a SUNAFIL." },
-    { deco: "🌙", text: "Su sentido del sarcasmo es proyectarse, dile algo rancio y te seguira el juego." },
+    { deco: "🌙", text: "Su sentido del sarcasmo es proyectarse, dile algo rancio y te seguirá el juego." },
   ];
 
   const PETAL_COLORS = [
@@ -528,7 +534,7 @@
   function showMessage(idx) {
     const m = MESSAGES[idx];
     msgDeco.textContent = m.deco;
-    msgText.textContent = m.text;
+    msgText.innerHTML = m.text;
 
     overlay.classList.remove('visible');
     void overlay.offsetWidth;
